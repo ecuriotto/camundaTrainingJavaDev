@@ -6,18 +6,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
 @Service
-
 public class TwitterService {
-
-
 
   private final Logger LOGGER = LoggerFactory.getLogger(TwitterService.class.getName());
 
-  public long tweet(String content) throws Exception {
+  public Long tweet(String content) throws TwitterException {
 
     LOGGER.info("Publishing tweet: " + content);
     AccessToken accessToken = new AccessToken("220324559-jet1dkzhSOeDWdaclI48z5txJRFLCnLOK45qStvo",

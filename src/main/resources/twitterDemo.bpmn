@@ -31,14 +31,14 @@
       <bpmn:outgoing>Flow_0s33vri</bpmn:outgoing>
       <bpmn:script>print('Tweet rejected');</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:manualTask id="Activity_0gzxmqb" name="Review tweet">
-      <bpmn:incoming>Flow_0cty6ld</bpmn:incoming>
-      <bpmn:outgoing>Flow_1em9vhh</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:serviceTask id="notifyApproval" name="Notify Approval" camunda:class="com.camunda.training.CreateTweetDelegate">
+    <bpmn:serviceTask id="notifyApproval" name="Notify Approval" camunda:delegateExpression="#{createTweetDelegate}">
       <bpmn:incoming>Flow_00jvy00</bpmn:incoming>
       <bpmn:outgoing>Flow_1161mrk</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_0gzxmqb" name="Review tweet" camunda:candidateGroups="management">
+      <bpmn:incoming>Flow_0cty6ld</bpmn:incoming>
+      <bpmn:outgoing>Flow_1em9vhh</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="twitterProcess">
@@ -101,11 +101,11 @@
       <bpmndi:BPMNShape id="Activity_12q5m49_di" bpmnElement="notifyRejection">
         <dc:Bounds x="650" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1rja8uw_di" bpmnElement="Activity_0gzxmqb">
-        <dc:Bounds x="310" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1sjg1qs_di" bpmnElement="notifyApproval">
         <dc:Bounds x="640" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1e05g5o_di" bpmnElement="Activity_0gzxmqb">
+        <dc:Bounds x="310" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
