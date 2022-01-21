@@ -1,0 +1,26 @@
+<form class="form-horizontal">
+  <h1>Tweet application</h1>
+  <div class="form-group">
+    <label class="control-label col-md-4">Tweet content</label>
+    <div class="col-md-8">
+      <input type="text"
+             cam-variable-name="content"
+             cam-variable-type="String"
+             required
+             class="form-control" 
+             readonly/>
+    </div>
+    <div class="col-md-8">         
+      <label for="approved">Is the content of the tweet good enough?: </label>   
+      <input type="checkbox"
+         cam-variable-name="approved"
+         cam-variable-type="Boolean"
+         id="approved"
+         class="form-control" />
+    </div>
+  </div>
+
+  <script cam-script type="text/form-script">
+    // custom JavaScript goes here
+  </script>
+</form>
