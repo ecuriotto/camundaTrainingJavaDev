@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wuat2a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wuat2a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="twitterProcess" name="Twitter Process" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Tweet written">
       <bpmn:outgoing>Flow_0cty6ld</bpmn:outgoing>
@@ -26,10 +26,6 @@
     <bpmn:endEvent id="Event_0qqmmxy" name="Tweet handled">
       <bpmn:incoming>Flow_19o0a3s</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:userTask id="Activity_0gzxmqb" name="Review tweet" camunda:candidateGroups="management">
-      <bpmn:incoming>Flow_0cty6ld</bpmn:incoming>
-      <bpmn:outgoing>Flow_1em9vhh</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:scriptTask id="notifyRejection" name="Notify Rejection" scriptFormat="javascript">
       <bpmn:incoming>Flow_13ghfva</bpmn:incoming>
       <bpmn:outgoing>Flow_0s33vri</bpmn:outgoing>
@@ -40,24 +36,26 @@
       <bpmn:outgoing>Flow_1161mrk</bpmn:outgoing>
       <bpmn:script>print('Tweet published');</bpmn:script>
     </bpmn:scriptTask>
+    <bpmn:manualTask id="Activity_0gzxmqb" name="Review tweet">
+      <bpmn:incoming>Flow_0cty6ld</bpmn:incoming>
+      <bpmn:outgoing>Flow_1em9vhh</bpmn:outgoing>
+    </bpmn:manualTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="twitterProcess">
-      <bpmndi:BPMNEdge id="Flow_0cty6ld_di" bpmnElement="Flow_0cty6ld">
-        <di:waypoint x="215" y="230" />
-        <di:waypoint x="310" y="230" />
+      <bpmndi:BPMNEdge id="Flow_19o0a3s_di" bpmnElement="Flow_19o0a3s">
+        <di:waypoint x="905" y="240" />
+        <di:waypoint x="1222" y="240" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1em9vhh_di" bpmnElement="Flow_1em9vhh">
-        <di:waypoint x="410" y="230" />
-        <di:waypoint x="505" y="230" />
+      <bpmndi:BPMNEdge id="Flow_0s33vri_di" bpmnElement="Flow_0s33vri">
+        <di:waypoint x="750" y="120" />
+        <di:waypoint x="880" y="120" />
+        <di:waypoint x="880" y="215" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_13ghfva_di" bpmnElement="Flow_13ghfva">
-        <di:waypoint x="530" y="205" />
-        <di:waypoint x="530" y="120" />
-        <di:waypoint x="650" y="120" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="539" y="160" width="13" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_1161mrk_di" bpmnElement="Flow_1161mrk">
+        <di:waypoint x="740" y="360" />
+        <di:waypoint x="880" y="360" />
+        <di:waypoint x="880" y="265" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_00jvy00_di" bpmnElement="Flow_00jvy00">
         <di:waypoint x="530" y="255" />
@@ -67,19 +65,21 @@
           <dc:Bounds x="536" y="305" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1161mrk_di" bpmnElement="Flow_1161mrk">
-        <di:waypoint x="740" y="360" />
-        <di:waypoint x="880" y="360" />
-        <di:waypoint x="880" y="265" />
+      <bpmndi:BPMNEdge id="Flow_13ghfva_di" bpmnElement="Flow_13ghfva">
+        <di:waypoint x="530" y="205" />
+        <di:waypoint x="530" y="120" />
+        <di:waypoint x="650" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="539" y="160" width="13" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0s33vri_di" bpmnElement="Flow_0s33vri">
-        <di:waypoint x="750" y="120" />
-        <di:waypoint x="880" y="120" />
-        <di:waypoint x="880" y="215" />
+      <bpmndi:BPMNEdge id="Flow_1em9vhh_di" bpmnElement="Flow_1em9vhh">
+        <di:waypoint x="410" y="230" />
+        <di:waypoint x="505" y="230" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_19o0a3s_di" bpmnElement="Flow_19o0a3s">
-        <di:waypoint x="905" y="240" />
-        <di:waypoint x="1222" y="240" />
+      <bpmndi:BPMNEdge id="Flow_0cty6ld_di" bpmnElement="Flow_0cty6ld">
+        <di:waypoint x="215" y="230" />
+        <di:waypoint x="310" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="212" width="36" height="36" />
@@ -99,14 +99,14 @@
           <dc:Bounds x="1204" y="265" width="72" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0hgj0vn_di" bpmnElement="Activity_0gzxmqb">
-        <dc:Bounds x="310" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_12q5m49_di" bpmnElement="notifyRejection">
         <dc:Bounds x="650" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0js0quw_di" bpmnElement="notifyApproval">
         <dc:Bounds x="640" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rja8uw_di" bpmnElement="Activity_0gzxmqb">
+        <dc:Bounds x="310" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
