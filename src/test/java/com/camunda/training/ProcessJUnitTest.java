@@ -9,6 +9,7 @@ import static org.mockito.Mockito.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
@@ -53,6 +54,12 @@ public class ProcessJUnitTest {
 
     // In order to complete the task
     complete(task(), (withVariables("approved", true)));
+
+    List<Job> jobList = jobQuery().processInstanceId(processInstance.getId()).list();
+    assertThat(jobList).hasSize(1);
+    Job job = jobList.get(0);
+    execute(job);
+
     assertThat(processInstance).isEnded();
 
   }

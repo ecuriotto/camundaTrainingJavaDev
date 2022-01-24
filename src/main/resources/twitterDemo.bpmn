@@ -12,7 +12,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1em9vhh" sourceRef="Activity_0gzxmqb" targetRef="Approved" />
     <bpmn:sequenceFlow id="Flow_13ghfva" name="no" sourceRef="Approved" targetRef="notifyRejection" />
-    <bpmn:sequenceFlow id="Flow_00jvy00" name="yes" sourceRef="Approved" targetRef="notifyApproval">
+    <bpmn:sequenceFlow id="Flow_00jvy00" name="yes" sourceRef="Approved" targetRef="publishTweet">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{approved==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_0owqbfp">
@@ -20,7 +20,7 @@
       <bpmn:incoming>Flow_0s33vri</bpmn:incoming>
       <bpmn:outgoing>Flow_19o0a3s</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1161mrk" sourceRef="notifyApproval" targetRef="Gateway_0owqbfp" />
+    <bpmn:sequenceFlow id="Flow_1161mrk" sourceRef="publishTweet" targetRef="Gateway_0owqbfp" />
     <bpmn:sequenceFlow id="Flow_0s33vri" sourceRef="notifyRejection" targetRef="Gateway_0owqbfp" />
     <bpmn:sequenceFlow id="Flow_19o0a3s" sourceRef="Gateway_0owqbfp" targetRef="Event_0qqmmxy" />
     <bpmn:endEvent id="Event_0qqmmxy" name="Tweet handled">
@@ -31,7 +31,7 @@
       <bpmn:outgoing>Flow_0s33vri</bpmn:outgoing>
       <bpmn:script>print('Tweet rejected');</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:serviceTask id="notifyApproval" name="Notify Approval" camunda:delegateExpression="#{createTweetDelegate}">
+    <bpmn:serviceTask id="publishTweet" name="Publish Tweet" camunda:asyncBefore="true" camunda:delegateExpression="#{createTweetDelegate}">
       <bpmn:incoming>Flow_00jvy00</bpmn:incoming>
       <bpmn:outgoing>Flow_1161mrk</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -101,7 +101,7 @@
       <bpmndi:BPMNShape id="Activity_12q5m49_di" bpmnElement="notifyRejection">
         <dc:Bounds x="650" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1sjg1qs_di" bpmnElement="notifyApproval">
+      <bpmndi:BPMNShape id="Activity_1sjg1qs_di" bpmnElement="publishTweet">
         <dc:Bounds x="640" y="320" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1e05g5o_di" bpmnElement="Activity_0gzxmqb">
