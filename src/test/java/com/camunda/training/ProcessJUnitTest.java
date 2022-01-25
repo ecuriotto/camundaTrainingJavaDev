@@ -75,6 +75,11 @@ public class ProcessJUnitTest {
 
     ProcessInstance processInstance = runtimeService().createProcessInstanceByKey("twitterProcess")
         .setVariables(varMap).startAfterActivity(findId("Review tweet")).execute();
+
+    assertThat(processInstance).isWaitingAt(findId("Tweet rejected")).externalTask()
+        .hasTopicName("notification");
+    complete(externalTask());
+
     assertThat(processInstance).isEnded().hasPassed(findId("Tweet rejected"));
   }
 
