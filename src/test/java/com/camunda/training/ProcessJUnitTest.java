@@ -39,7 +39,7 @@ public class ProcessJUnitTest {
     when(tweetService.tweet(anyString())).thenReturn(anyLong());
 
     // Create a HashMap to put in variables for the process instance
-    Map variables = new HashMap<String, Object>();
+    Map<String, Object> variables = new HashMap();
     variables.put("approved", true);
     variables.put("content", "Exercise - enrico " + System.currentTimeMillis());
     ProcessInstance processInstance =
@@ -81,6 +81,51 @@ public class ProcessJUnitTest {
     complete(externalTask());
 
     assertThat(processInstance).isEnded().hasPassed(findId("Tweet rejected"));
+  }
+
+  @Deployment(resources = "twitterDemo.bpmn")
+  @Test
+  public void testStartWithMessage() throws TwitterException {
+    Map<String, Object> varMap = new HashMap();
+    varMap.put("approved", false);
+    varMap.put("content", "Exercise  - enrico " + System.currentTimeMillis());
+
+    ProcessInstance processInstance = runtimeService().createMessageCorrelation("superUserTweet")
+        .setVariable("content", "My Exercise 11 Tweet Enrico - " + System.currentTimeMillis())
+        .correlateWithResult().getProcessInstance();
+
+    assertThat(processInstance).isStarted();
+
+    /*
+     * The following is causing a MismatchingMessageCorrelationException because the process is not
+     * expecting a message at this stage
+     * 
+     * runtimeService().createMessageCorrelation("tweetWithdrawn").correlateWithResult();
+     */
+
+    // We need to execute the job because we defined the service task "Publish tweet" as
+    // asynchronous before
+    execute(job());
+
+  }
+
+  @Deployment(resources = "twitterDemo.bpmn")
+  @Test
+  public void testTweetWithdrawn() throws TwitterException {
+    String content = "My Exercise 11 Tweet Enrico - " + System.currentTimeMillis();
+    Map<String, Object> variables = new HashMap();
+    variables.put("content", content);
+    ProcessInstance processInstance =
+        runtimeService().startProcessInstanceByKey("twitterProcess", variables);
+    assertThat(processInstance).isStarted();
+    assertThat(processInstance).isWaitingAt(findId("Review tweet"));
+
+    ProcessInstance processInstanceCheck =
+        runtimeService().createMessageCorrelation("tweetWithdrawn").setVariable("content", content)
+            .correlateWithResult().getProcessInstance();
+
+    assertThat(processInstance).isEnded();
+
   }
 
 }
