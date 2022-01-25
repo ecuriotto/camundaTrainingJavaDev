@@ -41,7 +41,7 @@ public class ProcessJUnitTest {
     // Create a HashMap to put in variables for the process instance
     Map variables = new HashMap<String, Object>();
     variables.put("approved", true);
-    variables.put("content", "Exercise 4 test - enrico " + System.currentTimeMillis());
+    variables.put("content", "Exercise - enrico " + System.currentTimeMillis());
     ProcessInstance processInstance =
         runtimeService().startProcessInstanceByKey("twitterProcess", variables);
 
@@ -62,6 +62,20 @@ public class ProcessJUnitTest {
 
     assertThat(processInstance).isEnded();
 
+  }
+
+
+  @Deployment(resources = "twitterDemo.bpmn")
+  @Test
+  public void testTweetRejected() throws TwitterException {
+
+    Map<String, Object> varMap = new HashMap();
+    varMap.put("approved", false);
+    varMap.put("content", "Exercise  - enrico " + System.currentTimeMillis());
+
+    ProcessInstance processInstance = runtimeService().createProcessInstanceByKey("twitterProcess")
+        .setVariables(varMap).startAfterActivity(findId("Review tweet")).execute();
+    assertThat(processInstance).isEnded().hasPassed(findId("Tweet rejected"));
   }
 
 }

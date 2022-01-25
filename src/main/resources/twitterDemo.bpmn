@@ -11,7 +11,7 @@
       <bpmn:outgoing>Flow_00jvy00</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1em9vhh" sourceRef="Activity_0gzxmqb" targetRef="Approved" />
-    <bpmn:sequenceFlow id="Flow_13ghfva" name="no" sourceRef="Approved" targetRef="notifyRejection" />
+    <bpmn:sequenceFlow id="Flow_13ghfva" name="no" sourceRef="Approved" targetRef="TweetRejected" />
     <bpmn:sequenceFlow id="Flow_00jvy00" name="yes" sourceRef="Approved" targetRef="publishTweet">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{approved==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -21,12 +21,12 @@
       <bpmn:outgoing>Flow_19o0a3s</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1161mrk" sourceRef="publishTweet" targetRef="Gateway_0owqbfp" />
-    <bpmn:sequenceFlow id="Flow_0s33vri" sourceRef="notifyRejection" targetRef="Gateway_0owqbfp" />
+    <bpmn:sequenceFlow id="Flow_0s33vri" sourceRef="TweetRejected" targetRef="Gateway_0owqbfp" />
     <bpmn:sequenceFlow id="Flow_19o0a3s" sourceRef="Gateway_0owqbfp" targetRef="Event_0qqmmxy" />
     <bpmn:endEvent id="Event_0qqmmxy" name="Tweet handled">
       <bpmn:incoming>Flow_19o0a3s</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:scriptTask id="notifyRejection" name="Notify Rejection" scriptFormat="javascript">
+    <bpmn:scriptTask id="TweetRejected" name="Tweet rejected" scriptFormat="javascript">
       <bpmn:incoming>Flow_13ghfva</bpmn:incoming>
       <bpmn:outgoing>Flow_0s33vri</bpmn:outgoing>
       <bpmn:script>print('Tweet rejected');</bpmn:script>
@@ -98,7 +98,7 @@
           <dc:Bounds x="1204" y="265" width="72" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_12q5m49_di" bpmnElement="notifyRejection">
+      <bpmndi:BPMNShape id="Activity_12q5m49_di" bpmnElement="TweetRejected">
         <dc:Bounds x="650" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1sjg1qs_di" bpmnElement="publishTweet">
