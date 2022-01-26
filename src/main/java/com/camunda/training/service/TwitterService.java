@@ -15,16 +15,21 @@ public class TwitterService {
 
   private final Logger LOGGER = LoggerFactory.getLogger(TwitterService.class.getName());
 
-  public Long tweet(String content) throws TwitterException {
+  public Long tweet(String content) {
 
-    LOGGER.info("Publishing tweet: " + content);
-    AccessToken accessToken = new AccessToken("220324559-jet1dkzhSOeDWdaclI48z5txJRFLCnLOK45qStvo",
-        "B28Ze8VDucBdiE38aVQqTxOyPc7eHunxBVv7XgGim4say");
-    Twitter twitter = new TwitterFactory().getInstance();
-    twitter.setOAuthConsumer("lRhS80iIXXQtm6LM03awjvrvk",
-        "gabtxwW8lnSL9yQUNdzAfgBOgIMSRqh7MegQs79GlKVWF36qLS");
-    twitter.setOAuthAccessToken(accessToken);
-    Status status = twitter.updateStatus(content);
-    return status.getId();
+    try {
+      LOGGER.info("Publishing tweet: " + content);
+      AccessToken accessToken =
+          new AccessToken("220324559-jet1dkzhSOeDWdaclI48z5txJRFLCnLOK45qStvo",
+              "B28Ze8VDucBdiE38aVQqTxOyPc7eHunxBVv7XgGim4say");
+      Twitter twitter = new TwitterFactory().getInstance();
+      twitter.setOAuthConsumer("lRhS80iIXXQtm6LM03awjvrvk",
+          "gabtxwW8lnSL9yQUNdzAfgBOgIMSRqh7MegQs79GlKVWF36qLS");
+      twitter.setOAuthAccessToken(accessToken);
+      Status status = twitter.updateStatus(content);
+      return status.getId();
+    } catch (TwitterException te) {
+      throw new org.camunda.bpm.engine.delegate.BpmnError("tweetDuplicated", te.getErrorMessage());
+    }
   }
 }

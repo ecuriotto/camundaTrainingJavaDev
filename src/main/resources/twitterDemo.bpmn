@@ -57,9 +57,23 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0v6ncvd" sourceRef="tweetWithdrawn" targetRef="Event_0nswl8t" />
     <bpmn:sequenceFlow id="Flow_1d2zz7f" sourceRef="Gateway_0st2ltv" targetRef="publishTweet" />
+    <bpmn:boundaryEvent id="Event_1dzmfh2" attachedToRef="publishTweet">
+      <bpmn:outgoing>Flow_028myvg</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_06uwgtl" errorRef="Error_08xnqwm" camunda:errorCodeVariable="publishFailedCode" camunda:errorMessageVariable="publishFailedMessage" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_028myvg" sourceRef="Event_1dzmfh2" targetRef="Activity_0t08yz9" />
+    <bpmn:endEvent id="Event_08vam6u" name="Tweet amended">
+      <bpmn:incoming>Flow_19xniru</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_19xniru" sourceRef="Activity_0t08yz9" targetRef="Event_08vam6u" />
+    <bpmn:userTask id="Activity_0t08yz9" name="Amend tweet">
+      <bpmn:incoming>Flow_028myvg</bpmn:incoming>
+      <bpmn:outgoing>Flow_19xniru</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmn:message id="Message_10oyo4a" name="superUserTweet" />
   <bpmn:message id="Message_06htytm" name="tweetWithdrawn" />
+  <bpmn:error id="Error_08xnqwm" name="Tweet duplicated" errorCode="tweetDuplicated" camunda:errorMessage="The tweet is already existing" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="twitterProcess">
       <bpmndi:BPMNEdge id="Flow_19o0a3s_di" bpmnElement="Flow_19o0a3s">
@@ -112,6 +126,15 @@
         <di:waypoint x="555" y="520" />
         <di:waypoint x="640" y="520" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_028myvg_di" bpmnElement="Flow_028myvg">
+        <di:waypoint x="690" y="578" />
+        <di:waypoint x="690" y="660" />
+        <di:waypoint x="730" y="660" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19xniru_di" bpmnElement="Flow_19xniru">
+        <di:waypoint x="830" y="660" />
+        <di:waypoint x="1222" y="660" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="342" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -154,11 +177,23 @@
       <bpmndi:BPMNShape id="Activity_1sjg1qs_di" bpmnElement="publishTweet">
         <dc:Bounds x="640" y="480" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_08vam6u_di" bpmnElement="Event_08vam6u">
+        <dc:Bounds x="1222" y="642" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1201" y="685" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1usevpg_di" bpmnElement="Activity_0t08yz9">
+        <dc:Bounds x="730" y="620" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1vtmmiy_di" bpmnElement="tweetWithdrawn">
         <dc:Bounds x="342" y="302" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="269" y="293" width="82" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0furdox_di" bpmnElement="Event_1dzmfh2">
+        <dc:Bounds x="672" y="542" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
