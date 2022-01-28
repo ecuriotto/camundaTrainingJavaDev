@@ -15,9 +15,10 @@ public class TwitterService {
 
   private final Logger LOGGER = LoggerFactory.getLogger(TwitterService.class.getName());
 
-  public Long tweet(String content) {
+  public Long tweet(String content) throws TwitterException {
 
     try {
+
       LOGGER.info("Publishing tweet: " + content);
       AccessToken accessToken =
           new AccessToken("220324559-jet1dkzhSOeDWdaclI48z5txJRFLCnLOK45qStvo",
@@ -28,8 +29,11 @@ public class TwitterService {
       twitter.setOAuthAccessToken(accessToken);
       Status status = twitter.updateStatus(content);
       return status.getId();
+
     } catch (TwitterException te) {
-      throw new org.camunda.bpm.engine.delegate.BpmnError("tweetDuplicated", te.getErrorMessage());
+      throw new org.camunda.bpm.engine.delegate.BpmnError("publishTweetErrorCode",
+          te.getErrorMessage());
     }
+
   }
 }

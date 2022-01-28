@@ -9,9 +9,9 @@ import static org.mockito.Mockito.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.extension.process_test_coverage.junit5.ProcessEngineCoverageExtension;
@@ -30,36 +30,36 @@ public class ProcessJUnitTest {
   @Mock
   TwitterService tweetService;
 
-  @Deployment(resources = "twitterDemo.bpmn")
   @Test
+  @Deployment(resources = {"tweetApproval.dmn", "twitterDemo.bpmn"})
   public void testHappyPath() throws TwitterException {
     // If we mock the service used in the delegate then in the task we should use "Delegate
     // expression"
     Mocks.register("createTweetDelegate", new CreateTweetDelegate(tweetService));
+
     when(tweetService.tweet(anyString())).thenReturn(anyLong());
 
     // Create a HashMap to put in variables for the process instance
     Map<String, Object> variables = new HashMap();
     variables.put("approved", true);
     variables.put("content", "Exercise - enrico " + System.currentTimeMillis());
+    variables.put("email", "gigetto@gmail.com");
     ProcessInstance processInstance =
         runtimeService().startProcessInstanceByKey("twitterProcess", variables);
 
     assertThat(processInstance).isStarted();
+    List<String> activityList = runtimeService().getActiveActivityIds(processInstance.getId());
+    System.out.println(activityList);
 
-    List<Task> taskList = taskService().createTaskQuery().taskCandidateGroup("management")
-        .processInstanceId(processInstance.getId()).list();
-
-    assert (taskList.size() == 1);
-
-    // In order to complete the task
-    complete(task(), (withVariables("approved", true)));
+    // assertThat(processInstance).isWaitingAt("publishTweet");
 
     List<Job> jobList = jobQuery().processInstanceId(processInstance.getId()).list();
-    assertThat(jobList).hasSize(1);
-    Job job = jobList.get(0);
-    execute(job);
+    /*
+     * List<Job> jobList = jobQuery().processInstanceId(processInstance.getId()).list();
+     * assertThat(jobList).hasSize(1); Job job = jobList.get(0); execute(job);
+     */
 
+    execute(job());
     assertThat(processInstance).isEnded();
 
   }
@@ -109,23 +109,16 @@ public class ProcessJUnitTest {
 
   }
 
-  @Deployment(resources = "twitterDemo.bpmn")
+
   @Test
-  public void testTweetWithdrawn() throws TwitterException {
-    String content = "My Exercise 11 Tweet Enrico - " + System.currentTimeMillis();
-    Map<String, Object> variables = new HashMap();
-    variables.put("content", content);
-    ProcessInstance processInstance =
-        runtimeService().startProcessInstanceByKey("twitterProcess", variables);
-    assertThat(processInstance).isStarted();
-    assertThat(processInstance).isWaitingAt(findId("Review tweet"));
-
-    ProcessInstance processInstanceCheck =
-        runtimeService().createMessageCorrelation("tweetWithdrawn").setVariable("content", content)
-            .correlateWithResult().getProcessInstance();
-
-    assertThat(processInstance).isEnded();
-
+  // @Deployment(resources = "tweetApproval.dmn")
+  @Deployment(resources = {"tweetApproval.dmn", "twitterDemo.bpmn"})
+  public void testTweetFromCeo() {
+    Map<String, Object> variables =
+        withVariables("email", "gigetto@gmail.com", "content", "this should be published");
+    DmnDecisionTableResult decisionResult =
+        decisionService().evaluateDecisionTableByKey("tweetApproval", variables);
+    assertThat(decisionResult.getFirstResult()).contains(entry("approved", true));
   }
 
 }
