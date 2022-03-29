@@ -1,5 +1,6 @@
 package com.camunda.training;
 
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,9 @@ public class CreateTweetDelegate implements JavaDelegate {
     String content = (String) execution.getVariable("content");
     System.out.println("Content......" + content);
 
+    //Using another Exception will cause an incident instead
     if (content.equals("Network error")) {
-      throw new RuntimeException("simulated network error");
+      throw new BpmnError("publishTweetErrorCode");
     }
 
     twitterService.tweet(content);

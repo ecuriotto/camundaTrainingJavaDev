@@ -62,6 +62,20 @@
   <bpmn:error id="Error_1tqgnc0" name="publishTweetError" errorCode="publishTweetErrorCode" camunda:errorMessage="messageError" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="twitterProcess">
+      <bpmndi:BPMNEdge id="Flow_0ch5u1b_di" bpmnElement="Flow_0ch5u1b">
+        <di:waypoint x="720" y="560" />
+        <di:waypoint x="320" y="560" />
+        <di:waypoint x="320" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mfu5su_di" bpmnElement="Flow_1mfu5su">
+        <di:waypoint x="650" y="448" />
+        <di:waypoint x="650" y="540" />
+        <di:waypoint x="720" y="540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j3gsmo_di" bpmnElement="Flow_0j3gsmo">
+        <di:waypoint x="212" y="390" />
+        <di:waypoint x="620" y="390" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19o0a3s_di" bpmnElement="Flow_19o0a3s">
         <di:waypoint x="905" y="240" />
         <di:waypoint x="1222" y="240" />
@@ -100,20 +114,6 @@
         <di:waypoint x="215" y="230" />
         <di:waypoint x="310" y="230" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0j3gsmo_di" bpmnElement="Flow_0j3gsmo">
-        <di:waypoint x="212" y="390" />
-        <di:waypoint x="620" y="390" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1mfu5su_di" bpmnElement="Flow_1mfu5su">
-        <di:waypoint x="650" y="448" />
-        <di:waypoint x="650" y="540" />
-        <di:waypoint x="720" y="540" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ch5u1b_di" bpmnElement="Flow_0ch5u1b">
-        <di:waypoint x="720" y="560" />
-        <di:waypoint x="320" y="560" />
-        <di:waypoint x="320" y="270" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="212" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -132,6 +132,9 @@
           <dc:Bounds x="1204" y="265" width="72" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sjg1qs_di" bpmnElement="publishTweet">
+        <dc:Bounds x="620" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_04aalnz_di" bpmnElement="TweetRejected">
         <dc:Bounds x="650" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -140,9 +143,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="158" y="405" width="81" height="27" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1sjg1qs_di" bpmnElement="publishTweet">
-        <dc:Bounds x="620" y="350" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_15uaknt_di" bpmnElement="Activity_0gzxmqb">
         <dc:Bounds x="310" y="190" width="100" height="80" />
