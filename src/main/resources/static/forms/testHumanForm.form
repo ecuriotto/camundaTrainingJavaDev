@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "label": "hello",
+      "type": "textfield",
+      "id": "Field_0yv0csz",
+      "key": "field_0difuff"
+    }
+  ],
+  "type": "default",
+  "id": "Form_TestHumanTask"
+}
