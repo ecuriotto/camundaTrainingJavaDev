@@ -13,8 +13,8 @@
 	<description>Spring Boot Application using [Camunda](http://docs.camunda.org).</description>
 
 	<properties>
-		<camunda.version>7.16.0-ee</camunda.version>
-		<springBoot.version>2.5.6</springBoot.version>
+		<camunda.version>7.18.0-ee</camunda.version>
+		<springBoot.version>2.7.1</springBoot.version>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -128,8 +128,8 @@
 	</dependencies>
 
 	<repositories>
-		<!-- <repository> <id>camunda-bpm-nexus</id> <name>Camunda Maven Repository</name> 
-			<url>https://camunda.jfrog.io/artifactory/public/</url> </repository> -->
+		<!-- <repository> <id>camunda-bpm-nexus</id> <name>Camunda Maven Repository</name>
+		<url>https://camunda.jfrog.io/artifactory/public/</url> </repository> -->
 		<repository>
 			<id>camunda-bpm-nexus-ee</id>
 			<name>Camunda Enterprise Maven Repository</name>
